@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/com-source-base/com-source-base.iml" filepath="$PROJECT_DIR$/com-source-base/com-source-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-biz/com-source-biz.iml" filepath="$PROJECT_DIR$/com-source-biz/com-source-biz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-dal/com-source-dal.iml" filepath="$PROJECT_DIR$/com-source-dal/com-source-dal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-facade/com-source-facade.iml" filepath="$PROJECT_DIR$/com-source-facade/com-source-facade.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-service/com-source-service.iml" filepath="$PROJECT_DIR$/com-source-service/com-source-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-test/com-source-test.iml" filepath="$PROJECT_DIR$/com-source-test/com-source-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-util/com-source-util.iml" filepath="$PROJECT_DIR$/com-source-util/com-source-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/com-source-web/com-source-web.iml" filepath="$PROJECT_DIR$/com-source-web/com-source-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-source-pro.iml" filepath="$PROJECT_DIR$/java-source-pro.iml" />
+    </modules>
+  </component>
+</project>

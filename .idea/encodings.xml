@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/.idea" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-base" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-biz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-dal" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-facade" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-test" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-util" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/com-source-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/java-source-dal" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
