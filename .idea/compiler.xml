@@ -80,16 +80,15 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
-      <module name="com-source-base" target="1.8.0_51" />
-      <module name="com-source-biz" target="1.8.0_51" />
-      <module name="com-source-dal" target="1.8.0_51" />
-      <module name="com-source-facade" target="1.8.0_51" />
-      <module name="com-source-service" target="1.8.0_51" />
-      <module name="com-source-test" target="1.8.0_51" />
-      <module name="com-source-util" target="1.8.0_51" />
-      <module name="com-source-web" target="1.8.0_51" />
-      <module name="java-source-dal" target="1.8.0_51" />
-      <module name="java-source-pro" target="1.8.0_51" />
+      <module name="com-source-base" target="1.7" />
+      <module name="com-source-biz" target="1.7" />
+      <module name="com-source-dal" target="1.7" />
+      <module name="com-source-facade" target="1.7" />
+      <module name="com-source-service" target="1.7" />
+      <module name="com-source-test" target="1.7" />
+      <module name="com-source-util" target="1.7" />
+      <module name="com-source-web" target="1.7" />
+      <module name="java-source-pro" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

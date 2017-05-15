@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/jdbc
+	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd"
+	default-lazy-init="false">
+
+	<!-- 该文件配置数据源、读写分离、事务管理器、事务拦截器 -->
+
+	<!-- 以下为读写分离配置，默认是一主二从 -->
+
+	<!-- 写数据源 -->
+	<bean id="writeDataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc.write.url}" />
+		<property name="username" value="${jdbc.write.username}" />
+		<property name="password" value="${jdbc.write.password}" />
+		<property name="initialSize" value="${druid.initialSize}" />
+		<property name="maxActive" value="${druid.maxActive}" />
+		<property name="maxWait" value="${druid.maxWait}" />
+	</bean>
+
+	<!-- 读数据源1 -->
+	<bean id="read01DataSource" parent="writeDataSource">
+		<property name="url" value="${jdbc.read01.url}" />
+		<property name="username" value="${jdbc.read01.username}" />
+		<property name="password" value="${jdbc.read01.password}" />
+	</bean>
+
+	<!-- 读数据源2 -->
+	<bean id="read02DataSource" parent="writeDataSource">
+		<property name="url" value="${jdbc.read02.url}" />
+		<property name="username" value="${jdbc.read02.username}" />
+		<property name="password" value="${jdbc.read02.password}" />
+	</bean>
+
+	<!-- 读写数据源 -->
+	<bean id="dataSource" class="com.eif.framework.data.datasource.ReadWriteDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<entry key="write" value-ref="writeDataSource" />
+				<entry key="read01" value-ref="read01DataSource" />
+				<entry key="read02" value-ref="read02DataSource" />
+			</map>
+		</property>
+		<property name="defaultTargetDataSource" ref="writeDataSource" />
+		<property name="readWriteKey" ref="readWriteKey" />
+	</bean>
+
+	<bean id="readWriteKey" class="com.eif.framework.data.common.ReadWriteKey">
+		<property name="writeKey" value="write" />
+		<property name="loadBalance" ref="roundRobinLoadBalance" />
+	</bean>
+
+	<!-- 负载均衡 -->
+	<bean id="roundRobinLoadBalance"
+		class="com.eif.framework.data.loadbalance.RoundRobinLoadBalance">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.Integer">
+				<entry key="read01" value="1" />
+				<entry key="read02" value="1" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<!-- 读写拦截器 -->
+	<bean id="readWriteInterceptor" class="com.eif.framework.data.interceptor.ReadWriteInterceptor">
+		<property name="readWriteKey" ref="readWriteKey" />
+	</bean>
+
+	<!-- MyBatis, 分页 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" value="classpath:src/main/resources/sqlmapper/*Mapper.xml" />
+		<property name="configLocation" value="classpath:src/main/resources/mybatis-config.xml" />
+		<property name="plugins">
+			<array>
+				<bean class="com.eif.framework.log.client.mybatis.MyBatisQueryInterceptor" />
+				<bean class="com.eif.framework.log.client.mybatis.MyBatisUpdateInterceptor" />
+				<bean class="com.eif.framework.pagination.pagehelper.PageHelper">
+					<property name="properties" value="dialect=mysql" />
+				</bean>
+			</array>
+		</property>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.eif.inspection.dal.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 事务拦截器 -->
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource">
+			<bean
+				class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+</beans>
